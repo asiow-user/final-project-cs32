@@ -47,13 +47,45 @@ def parse_warner_txt(filepath):
     return pd.DataFrame({'text': texts, 'label': labels})
 
 def clean_text(text):
-    """Basic text cleaning for model input"""
+    """Enhanced cleaning that handles leetspeak and slang"""
     text = text.lower()
-    text = re.sub(r'http\S+', '', text)  # Remove URLs
-    text = re.sub(r'@\w+', '', text)     # Remove @mentions
-    text = re.sub(r'#', '', text)        # Remove # (keep the word though)
-    text = re.sub(r'[^a-z\s]', '', text) # Keep only letters and spaces
+    
+    # Replace leetspeak characters
+    leet_map = {
+        '0': 'o', '1': 'i', '2': 'to', '3': 'e', '4': 'a',
+        '5': 's', '6': 'b', '7': 't', '8': 'ate', '9': 'g',
+        '@': 'a', '$': 's', '!': 'i', '+': 'and'
+    }
+    
+    for leet, replacement in leet_map.items():
+        text = text.replace(leet, replacement)
+    
+    # Expand common abusive acronyms
+    acronyms = {
+        r'\bkys\b': 'kill yourself',
+        r'\bkms\b': 'kill myself',
+        r'\bstfu\b': 'shut the fuck up',
+        r'\bgtfo\b': 'get the fuck out',
+        r'\bfoh\b': 'fuck out of here',
+        r'\bh8\b': 'hate',
+        r'\bh8te\b': 'hate',
+    }
+    
+    for acronym, expansion in acronyms.items():
+        text = re.sub(acronym, expansion, text)
+    
+    # Handle "go die" patterns
+    text = re.sub(r'go\s+die', 'kill yourself', text)
+    
+    # Remove URLs and mentions
+    text = re.sub(r'http\S+', '', text)
+    text = re.sub(r'@\w+', '', text)
+    text = re.sub(r'#', '', text)
+    
+    # Keep only letters and spaces (but now we've normalized first)
+    text = re.sub(r'[^a-z\s]', '', text)
     text = re.sub(r'\s+', ' ', text).strip()
+    
     return text
 
 if __name__ == "__main__":

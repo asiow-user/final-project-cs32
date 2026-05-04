@@ -1,21 +1,29 @@
 # app.py
+
+import joblib
 from flask import Flask, request, jsonify
-import joblib  # or torch / tensorflow depending on your model
+from flask_cors import CORS
 
 app = Flask(__name__)
 
-# Load your trained model
-model = joblib.load("hate_speech_model.pkl")
+CORS(app, resources={
+    r"/classify": {
+        "origins": ["https://x.com", "https://twitter.com"]
+    }
+})
 
-def predict(text):
-    # adapt this to your preprocessing
-    prediction = model.predict([text])[0]
-    prob = model.predict_proba([text])[0].max()
-    return prediction, prob
+# (Optional) keep the load if you want, but we'll not use it yet
+# model = joblib.load("hate_speech_model.pkl")
+
+def predict(text: str):
+    # TEMPORARY STUB:
+    # Always say "not hate" with 0.5 confidence
+    # so your extension can function end‑to‑end.
+    return 0, 0.5
 
 @app.route("/classify", methods=["POST"])
 def classify():
-    data = request.json
+    data = request.get_json(force=True) or {}
     text = data.get("text", "")
 
     pred, prob = predict(text)
@@ -26,4 +34,4 @@ def classify():
     })
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)

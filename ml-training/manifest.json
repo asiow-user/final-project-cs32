@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Twitter Hate Classifier",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://twitter.com/*",
+        "https://x.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": [
+    "https://ubiquitous-space-goldfish-wr69xxvj46p935r9g-5001.app.github.dev/*"
+  ]
+}

@@ -12,7 +12,7 @@ For our final project, we have decided to create a Social Media Moderator that w
 6. We'd combine keyword matches and sentiment score to assign a risk score to each post. If a post's risk score passes a certain threshold, we will label it as potentially harmful, and otherwise mark it as safe.
 7. We will output the results to the user, showing the original post along with how our program has classified it, such as risk score or flagged keywords.
 
-## ML Training for Hate Speech Detection##
+## ML Training for Hate Speech Detection
 Welcome to our final project for CS32 with the last updates! Our project is a hate speech detector system that uses machine learning and a browser extension to moderate harmful content in real time. First, we started with an existing and labeled dataset. We cleaned this data and also normalized slang and abbreviations frequently used for hate speech. We also included additional synthetic training examples of both abusive and safe language patterns, so the model could be better at predicting what actual hate speech or just disagreement. Finally, after saving the model, we expose it through a Flask API. The model is then integrated into a browser extension that scans social media posts, sends this text to the backend for classification, and visually blurs harmful content.
 
 ## Explanation of our Files ##

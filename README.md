@@ -45,3 +45,35 @@ train_bert.py - Train high-accuracy BERT model
 'popup.html' is used to define the user interface of the extension
 
 popup.js: This script should run when the user clicks the button in the extension popup. It should get the tab's URL, send it to the Python backend, and display the response in the pop-up.
+
+##Development Setup##
+1. We used the GitHub Codespace to write, edit and run code.
+3. We installed all the required Python packages using `pip install'. We detail all the packages we installed in the next heading.
+4. We uploaded and managed our datasets locally before preprocessing and training models. The raw dataset (warner.txt) was first cleaned and structured using preprocess.py, producing processed_data.csv, which was then used for model training. We also used augment_data.py to generate additional synthetic examples and expand the dataset for better generalization.
+5. The Flask backend (app.py) was run locally during development to connect the model with the Chrome extension.
+6. The Chrome extension was loaded in Developer Mode. It consisted of: manifest.json for configuration and permissions, content.js for scanninh and extracting text from X, and popup.html and popup.js for the user interface.
+
+##Packages Installed##
+We installed the following packages over the course of the development of the project. 
+1. joblib: used for saving and loading trained machine learning models, allowed us to reuse the model in app.py without having to retrain it every single time
+2. flask, from which we further imported Flask, request, jsonify: used for creating the web server, handle incoming data from the extension and convert Python dictionary into JSON Format to send a structured response back to the frontend
+3. CORS: used to allow our backend to communicate with our frontend
+4. pandas: which is a library that helps us work with structured data, allowed us to load training dataset
+5. re: Python's regular expression module
+6. from sklearn.model_selection, import train_test_split: used to split datasets into training and testing dataset
+7. os: used to interact with the operating system
+8. sys: used to provide access to system-specific parameters and functions
+9. from sklearn.feature_extraction.text import TfidfVectorizer: used to convert text into numerical features using term frequency-inverse document frequency
+10. from sklearn.linear_model import LogisticRegression: used to predict whether text can be classified as hate speech
+11. from sklearn.metrics import classification_report, accuracy_score, confusion_matrix: used to evaluate how well our model performs
+12. numpty: used for numerical computing
+
+
+##References and Credits##
+We want to acknowledge the use of Generative AI, specifically Harvard's AI Sandbox, for this assignment. It assisted us in writing the code as well as the debugging. However, the brainstorming of the project workflow, the comments explaining the code and content in this ReadMe are all our original work. 
+
+In addition, our dataset was taken from the following source. 
+1. [Inducing a Lexicon of Abusive Words – a Feature-Based Approach](https://aclanthology.org/N18-1095/) (Wiegand et al., NAACL 2018)
+
+
+
